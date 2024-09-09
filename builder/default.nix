@@ -325,16 +325,16 @@ let
             local OUT
             if ! OUT="$(go $cmd "''${flags[@]}" $dir 2>&1)"; then
               if echo "$OUT" | grep -qE 'imports .*?: no Go files in'; then
-                echo "$OUT" >&2
+                echo "A: would have output $(echo "$OUT" | wc -c) characters worth of trash" >&2
                 return 1
               fi
               if ! echo "$OUT" | grep -qE '(no( buildable| non-test)?|build constraints exclude all) Go (source )?files'; then
-                echo "$OUT" >&2
+                echo "B: would have output $(echo "$OUT" | wc -c) characters worth of trash" >&2
                 return 1
               fi
             fi
             if [ -n "$OUT" ]; then
-              echo "$OUT" >&2
+              echo "C: would have output $(echo "$OUT" | wc -c) characters worth of trash" >&2
             fi
             return 0
           }
